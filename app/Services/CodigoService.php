@@ -23,7 +23,13 @@ class CodigoService
         $ano = date('Y');
         $chaveConfig = "contador_{$prefixo}_{$ano}";
 
-        $this->db->beginTransaction();
+        // Pode ser chamado isoladamente ou já dentro da transação de um service
+        // maior (criação de solicitação, exceção, etc.). Só abre/fecha transação
+        // própria quando ainda não há uma ativa — PDO não suporta aninhamento.
+        $transacaoPropria = !$this->db->inTransaction();
+        if ($transacaoPropria) {
+            $this->db->beginTransaction();
+        }
         try {
             $stmt = $this->db->prepare("SELECT valor FROM configuracoes WHERE chave = :c FOR UPDATE");
             $stmt->execute(['c' => $chaveConfig]);
@@ -39,9 +45,13 @@ class CodigoService
                 $upd->execute(['v' => (string)$proximo, 'c' => $chaveConfig]);
             }
 
-            $this->db->commit();
+            if ($transacaoPropria) {
+                $this->db->commit();
+            }
         } catch (\Throwable $e) {
-            $this->db->rollBack();
+            if ($transacaoPropria && $this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
             throw $e;
         }
 

@@ -25,19 +25,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $dados = [
         'meu_data' => inputPost('meu_data'),
-        'meu_hora_inicial' => inputPost('meu_hora_inicial'),
-        'meu_hora_final' => inputPost('meu_hora_final'),
         'meu_turno' => inputPost('meu_turno'),
         'outro_usuario_id' => (int) inputPost('outro_usuario_id'),
         'outro_data' => inputPost('outro_data'),
-        'outro_hora_inicial' => inputPost('outro_hora_inicial'),
-        'outro_hora_final' => inputPost('outro_hora_final'),
         'outro_turno' => inputPost('outro_turno'),
         'motivo' => inputPost('motivo'),
         'observacao' => inputPost('observacao'),
     ];
 
-    $camposObrigatorios = ['meu_data','meu_hora_inicial','meu_hora_final','meu_turno','outro_usuario_id','outro_data','outro_hora_inicial','outro_hora_final','outro_turno'];
+    $camposObrigatorios = ['meu_data','meu_turno','outro_usuario_id','outro_data','outro_turno'];
     $faltando = array_filter($camposObrigatorios, fn($c) => empty($dados[$c]));
 
     if (!empty($faltando) || $dados['outro_usuario_id'] === (int)Auth::id()) {

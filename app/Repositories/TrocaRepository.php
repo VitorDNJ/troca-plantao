@@ -17,10 +17,10 @@ class TrocaRepository
     public function criar(array $dados): int
     {
         $sql = "INSERT INTO trocas
-                (solicitacao_id, meu_data, meu_hora_inicial, meu_hora_final, meu_turno,
-                 outro_usuario_id, outro_data, outro_hora_inicial, outro_hora_final, outro_turno, periodo_outro_id)
-                VALUES (:solicitacao_id, :meu_data, :meu_hora_inicial, :meu_hora_final, :meu_turno,
-                        :outro_usuario_id, :outro_data, :outro_hora_inicial, :outro_hora_final, :outro_turno, :periodo_outro_id)";
+                (solicitacao_id, meu_data, meu_turno,
+                 outro_usuario_id, outro_data, outro_turno, periodo_outro_id)
+                VALUES (:solicitacao_id, :meu_data, :meu_turno,
+                        :outro_usuario_id, :outro_data, :outro_turno, :periodo_outro_id)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute($dados);
         return (int)$this->db->lastInsertId();

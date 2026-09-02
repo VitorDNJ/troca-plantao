@@ -24,7 +24,8 @@ if ($acao === 'alternar_status') {
         $novo = $usuario['status'] === 'ATIVO' ? 'INATIVO' : 'ATIVO';
         $repo->alternarStatus($id, $novo);
         $auditoria->registrar(Auth::id(), 'ALTERAR_STATUS_USUARIO', 'usuarios', $id, ['status' => $usuario['status']], ['status' => $novo]);
-        flashMessage('success', "Usuário {$novo === 'ATIVO' ? 'ativado' : 'desativado'} com sucesso.");
+        $rotulo = $novo === 'ATIVO' ? 'ativado' : 'desativado';
+        flashMessage('success', "Usuário {$rotulo} com sucesso.");
     }
 } elseif ($acao === 'senha_temporaria') {
     $novaSenha = substr(bin2hex(random_bytes(5)), 0, 8);

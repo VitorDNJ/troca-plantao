@@ -16,14 +16,27 @@ $msg = getFlashMessage();
 </head>
 <body>
 <?php if (Auth::checado()): ?>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="<?= url('index.php') ?>">🩺 Troca &amp; Passagem de Plantão</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<div class="app-shell">
+
+  <!-- Barra superior somente em telas pequenas (abre o menu lateral) -->
+  <nav class="navbar navbar-dark bg-dark d-lg-none">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand ms-2" href="<?= url('index.php') ?>">🩺 Troca &amp; Passagem</a>
+    </div>
+  </nav>
+
+  <!-- Menu lateral esquerdo (estático em telas grandes, offcanvas nas pequenas) -->
+  <aside class="app-sidebar offcanvas-lg offcanvas-start bg-dark text-light" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+    <div class="offcanvas-header border-bottom border-secondary">
+      <a class="navbar-brand text-light mb-0" id="sidebarMenuLabel" href="<?= url('index.php') ?>">🩺 Troca &amp; Passagem de Plantão</a>
+      <button type="button" class="btn-close btn-close-white d-lg-none" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Fechar"></button>
+    </div>
+
+    <div class="offcanvas-body d-flex flex-column p-0">
+      <ul class="nav flex-column p-3 gap-1">
         <li class="nav-item"><a class="nav-link" href="<?= url('index.php') ?>">Início</a></li>
 
         <?php if (Auth::isColaborador()): ?>
@@ -40,38 +53,34 @@ $msg = getFlashMessage();
         <?php endif; ?>
 
         <?php if (Auth::isAdmin() || Auth::isCoordenador()): ?>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Relatórios</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="<?= url('relatorios_flit.php') ?>">Relatório FLIT (trocas/passagens)</a></li>
-            <li><a class="dropdown-item" href="<?= url('relatorios_periodo.php') ?>">Relatório por período</a></li>
-            <li><a class="dropdown-item" href="<?= url('relatorios_individual.php') ?>">Relatório individual</a></li>
-            <li><a class="dropdown-item" href="<?= url('relatorios_excecoes.php') ?>">Relatório de exceções</a></li>
-          </ul>
-        </li>
+          <li class="sidebar-heading">Relatórios</li>
+          <li class="nav-item"><a class="nav-link" href="<?= url('relatorios_flit.php') ?>">Relatório FLIT</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= url('relatorios_periodo.php') ?>">Por período</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= url('relatorios_individual.php') ?>">Individual</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= url('relatorios_excecoes.php') ?>">De exceções</a></li>
         <?php endif; ?>
 
         <?php if (Auth::isAdmin()): ?>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Administração</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="<?= url('usuarios_lista.php') ?>">Usuários</a></li>
-            <li><a class="dropdown-item" href="<?= url('setores_lista.php') ?>">Setores</a></li>
-            <li><a class="dropdown-item" href="<?= url('periodos_lista.php') ?>">Períodos</a></li>
-            <li><a class="dropdown-item" href="<?= url('auditoria_lista.php') ?>">Auditoria</a></li>
-          </ul>
-        </li>
+          <li class="sidebar-heading">Administração</li>
+          <li class="nav-item"><a class="nav-link" href="<?= url('usuarios_lista.php') ?>">Usuários</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= url('setores_lista.php') ?>">Setores</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= url('periodos_lista.php') ?>">Períodos</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= url('auditoria_lista.php') ?>">Auditoria</a></li>
         <?php endif; ?>
       </ul>
-      <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="<?= url('notificacoes.php') ?>">🔔 <?= $naoLidas > 0 ? "<span class='badge bg-danger'>{$naoLidas}</span>" : '' ?></a></li>
-        <li class="nav-item"><span class="nav-link text-light-emphasis"><?= h(Auth::nome()) ?> <small>(<?= h(Auth::perfil()) ?>)</small></span></li>
-        <li class="nav-item"><a class="nav-link" href="<?= url('trocar_senha.php') ?>">Alterar senha</a></li>
-        <li class="nav-item"><a class="nav-link" href="<?= url('logout.php') ?>">Sair</a></li>
-      </ul>
+
+      <div class="mt-auto border-top border-secondary p-3">
+        <a class="nav-link px-0" href="<?= url('notificacoes.php') ?>">🔔 Notificações
+          <?= $naoLidas > 0 ? "<span class='badge bg-danger ms-1'>{$naoLidas}</span>" : '' ?>
+        </a>
+        <div class="small text-light-emphasis mt-2"><?= h(Auth::nome()) ?> <span class="text-secondary">(<?= h(Auth::perfil()) ?>)</span></div>
+        <a class="nav-link px-0" href="<?= url('trocar_senha.php') ?>">Alterar senha</a>
+        <a class="nav-link px-0" href="<?= url('logout.php') ?>">Sair</a>
+      </div>
     </div>
-  </div>
-</nav>
+  </aside>
+
+  <div class="app-main flex-grow-1">
 <?php endif; ?>
 <main class="container-fluid py-4">
   <?php if ($msg): ?>

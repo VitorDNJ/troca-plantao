@@ -58,16 +58,20 @@ class UsuarioRepository
     /** Pesquisa colaboradores por nome ou matrícula (para seleção em trocas/passagens). */
     public function pesquisar(string $termo, ?int $excluirId = null, int $limite = 15): array
     {
+        // Placeholders nomeados não podem se repetir quando EMULATE_PREPARES = false,
+        // por isso :termoNome e :termoMatricula em vez de um único :t reutilizado.
         $sql = "SELECT u.id, u.nome, u.matricula, s.nome AS setor_nome, u.funcao
                 FROM usuarios u JOIN setores s ON s.id = u.setor_id
-                WHERE u.status = 'ATIVO' AND (u.nome LIKE :t OR u.matricula LIKE :t)";
+                WHERE u.status = 'ATIVO' AND (u.nome LIKE :termoNome OR u.matricula LIKE :termoMatricula)";
         if ($excluirId) {
             $sql .= " AND u.id != :excluirId";
         }
         $sql .= " ORDER BY u.nome LIMIT :lim";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue('t', '%' . $termo . '%', PDO::PARAM_STR);
+        $like = '%' . $termo . '%';
+        $stmt->bindValue('termoNome', $like, PDO::PARAM_STR);
+        $stmt->bindValue('termoMatricula', $like, PDO::PARAM_STR);
         if ($excluirId) {
             $stmt->bindValue('excluirId', $excluirId, PDO::PARAM_INT);
         }
@@ -89,8 +93,11 @@ class UsuarioRepository
             $params['setorId'] = $setorId;
         }
         if ($busca) {
-            $sql .= " AND (u.nome LIKE :busca OR u.matricula LIKE :busca OR u.cpf LIKE :busca)";
-            $params['busca'] = '%' . $busca . '%';
+            $sql .= " AND (u.nome LIKE :buscaNome OR u.matricula LIKE :buscaMatricula OR u.cpf LIKE :buscaCpf)";
+            $like = '%' . $busca . '%';
+            $params['buscaNome'] = $like;
+            $params['buscaMatricula'] = $like;
+            $params['buscaCpf'] = $like;
         }
         $sql .= " ORDER BY u.nome";
         $stmt = $this->db->prepare($sql);

@@ -15,8 +15,11 @@ function h(?string $value): string
  */
 function url(string $path = ''): string
 {
-    $base = rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/');
-    // Normaliza quando estamos dentro de /public
+    $script = $_SERVER['SCRIPT_NAME'] ?? '';
+    // dirname() usa o separador do SO: no Windows devolve "\" para a raiz,
+    // o que gera URLs quebradas como "\/login.php". Normaliza para "/".
+    $base = str_replace('\\', '/', dirname($script));
+    $base = rtrim($base, '/');
     return $base . '/' . ltrim($path, '/');
 }
 

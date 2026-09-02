@@ -196,8 +196,15 @@ class SolicitacaoRepository
             $params['excecao'] = (int)$filtros['excecao'];
         }
         if (!empty($filtros['setor_ids_permitidos'])) {
-            $in = implode(',', array_fill(0, count($filtros['setor_ids_permitidos']), '?'));
-            $sql .= " AND st.id IN ($in)";
+            // Placeholders nomeados (:setorPerm0, :setorPerm1, ...) para não misturar
+            // com os demais filtros nomeados — PDO não aceita named + posicional juntos.
+            $nomes = [];
+            foreach (array_values($filtros['setor_ids_permitidos']) as $idx => $sid) {
+                $ph = ":setorPerm{$idx}";
+                $nomes[] = $ph;
+                $params[substr($ph, 1)] = $sid;
+            }
+            $sql .= " AND st.id IN (" . implode(',', $nomes) . ")";
         }
 
         $sql .= " ORDER BY s.criado_em DESC";
@@ -205,12 +212,6 @@ class SolicitacaoRepository
         $stmt = $this->db->prepare($sql);
         foreach ($params as $k => $v) {
             $stmt->bindValue($k, $v);
-        }
-        if (!empty($filtros['setor_ids_permitidos'])) {
-            $i = count($params) + 1;
-            foreach ($filtros['setor_ids_permitidos'] as $sid) {
-                $stmt->bindValue($i++, $sid);
-            }
         }
         $stmt->execute();
         return $stmt->fetchAll();

@@ -118,13 +118,9 @@ CREATE TABLE trocas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     solicitacao_id INT NOT NULL UNIQUE,
     meu_data DATE NOT NULL,
-    meu_hora_inicial TIME NOT NULL,
-    meu_hora_final TIME NOT NULL,
     meu_turno ENUM('SD','SN') NOT NULL,
     outro_usuario_id INT NOT NULL,
     outro_data DATE NOT NULL,
-    outro_hora_inicial TIME NOT NULL,
-    outro_hora_final TIME NOT NULL,
     outro_turno ENUM('SD','SN') NOT NULL,
     periodo_outro_id INT NULL,                  -- período referente à data do outro colaborador (pode diferir)
     CONSTRAINT fk_troca_solicitacao FOREIGN KEY (solicitacao_id) REFERENCES solicitacoes(id) ON DELETE CASCADE,

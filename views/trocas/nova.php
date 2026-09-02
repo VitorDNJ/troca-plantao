@@ -29,10 +29,8 @@
 
     <h6 class="text-muted">MEU PLANTÃO</h6>
     <div class="row g-3 mb-4">
-      <div class="col-md-3"><label class="form-label">Data</label><input type="date" name="meu_data" class="form-control" value="<?= old('meu_data') ?>" required></div>
-      <div class="col-md-3"><label class="form-label">Horário inicial</label><input type="time" name="meu_hora_inicial" class="form-control" value="<?= old('meu_hora_inicial') ?>" required></div>
-      <div class="col-md-3"><label class="form-label">Horário final</label><input type="time" name="meu_hora_final" class="form-control" value="<?= old('meu_hora_final') ?>" required></div>
-      <div class="col-md-3"><label class="form-label">Turno</label>
+      <div class="col-md-4"><label class="form-label">Data</label><input type="date" name="meu_data" class="form-control" value="<?= old('meu_data') ?>" required></div>
+      <div class="col-md-4"><label class="form-label">Turno</label>
         <select name="meu_turno" class="form-select" required>
           <option value="">Selecione</option>
           <option value="SD" <?= old('meu_turno')==='SD'?'selected':'' ?>>SD (Diurno)</option>
@@ -54,10 +52,8 @@
 
     <h6 class="text-muted mt-3">PLANTÃO DO OUTRO COLABORADOR</h6>
     <div class="row g-3 mb-4">
-      <div class="col-md-3"><label class="form-label">Data</label><input type="date" name="outro_data" class="form-control" value="<?= old('outro_data') ?>" required></div>
-      <div class="col-md-3"><label class="form-label">Horário inicial</label><input type="time" name="outro_hora_inicial" class="form-control" value="<?= old('outro_hora_inicial') ?>" required></div>
-      <div class="col-md-3"><label class="form-label">Horário final</label><input type="time" name="outro_hora_final" class="form-control" value="<?= old('outro_hora_final') ?>" required></div>
-      <div class="col-md-3"><label class="form-label">Turno</label>
+      <div class="col-md-4"><label class="form-label">Data</label><input type="date" name="outro_data" class="form-control" value="<?= old('outro_data') ?>" required></div>
+      <div class="col-md-4"><label class="form-label">Turno</label>
         <select name="outro_turno" class="form-select" required>
           <option value="">Selecione</option>
           <option value="SD" <?= old('outro_turno')==='SD'?'selected':'' ?>>SD (Diurno)</option>

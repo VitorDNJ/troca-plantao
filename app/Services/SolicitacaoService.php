@@ -93,13 +93,9 @@ class SolicitacaoService
             $this->trocaRepo->criar([
                 'solicitacao_id' => $solicitacaoId,
                 'meu_data' => $dados['meu_data'],
-                'meu_hora_inicial' => $dados['meu_hora_inicial'],
-                'meu_hora_final' => $dados['meu_hora_final'],
                 'meu_turno' => $dados['meu_turno'],
                 'outro_usuario_id' => $dados['outro_usuario_id'],
                 'outro_data' => $dados['outro_data'],
-                'outro_hora_inicial' => $dados['outro_hora_inicial'],
-                'outro_hora_final' => $dados['outro_hora_final'],
                 'outro_turno' => $dados['outro_turno'],
                 'periodo_outro_id' => $outroPeriodo['id'],
             ]);

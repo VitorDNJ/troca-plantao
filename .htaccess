@@ -1,14 +1,18 @@
-# Impede listagem e acesso direto a qualquer arquivo fora de /public
-# Em um servidor com DocumentRoot apontando para a pasta /public (recomendado
-# em produção), este arquivo é redundante, mas protege instalações onde o
-# DocumentRoot aponta para a raiz do projeto (comum no XAMPP).
+# Protege a instalação quando o DocumentRoot aponta para a raiz do projeto
+# (padrão no XAMPP, acessando http://localhost/troca-plantao/).
+# Em produção, prefira apontar o DocumentRoot direto para a pasta /public.
 
 Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteCond %{REQUEST_URI} !^/public/
-    RewriteCond %{REQUEST_URI} !^/index\.php$
+
+    # Acesso à raiz do projeto -> envia o visitante para a pasta pública.
+    # Usa REQUEST_URI para funcionar em qualquer subpasta, sem hardcode do nome.
+    RewriteRule ^$ %{REQUEST_URI}public/ [R=302,L]
+
+    # Bloqueia acesso direto às pastas internas (fora de /public).
+    RewriteCond %{REQUEST_URI} !/public/
     RewriteRule ^(app|config|database|storage|views)(/.*)?$ - [F,L]
 </IfModule>
 

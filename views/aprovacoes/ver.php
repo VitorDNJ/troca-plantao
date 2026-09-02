@@ -25,9 +25,9 @@
         <tr><th>Período</th><td><?= h($sol['periodo_nome']) ?> (<?= formatarData($sol['periodo_data_inicial']) ?> a <?= formatarData($sol['periodo_data_final']) ?>)</td></tr>
 
         <?php if ($sol['tipo'] === 'TROCA'): ?>
-          <tr><th>Meu plantão</th><td><?= formatarData($detalhe['meu_data']) ?> <?= formatarHora($detalhe['meu_hora_inicial']) ?>–<?= formatarHora($detalhe['meu_hora_final']) ?> (<?= h($detalhe['meu_turno']) ?>)</td></tr>
+          <tr><th>Meu plantão</th><td><?= formatarData($detalhe['meu_data']) ?> (<?= h($detalhe['meu_turno']) ?>)</td></tr>
           <tr><th>Outro colaborador</th><td><?= h($detalhe['outro_nome']) ?> (<?= h($detalhe['outro_matricula']) ?>) — <?= h($detalhe['outro_setor_nome']) ?></td></tr>
-          <tr><th>Plantão do outro</th><td><?= formatarData($detalhe['outro_data']) ?> <?= formatarHora($detalhe['outro_hora_inicial']) ?>–<?= formatarHora($detalhe['outro_hora_final']) ?> (<?= h($detalhe['outro_turno']) ?>)</td></tr>
+          <tr><th>Plantão do outro</th><td><?= formatarData($detalhe['outro_data']) ?> (<?= h($detalhe['outro_turno']) ?>)</td></tr>
         <?php else: ?>
           <tr><th>Recebeu</th><td><?= h($detalhe['recebeu_nome']) ?> (<?= h($detalhe['recebeu_matricula']) ?>) — <?= h($detalhe['recebeu_setor_nome']) ?></td></tr>
           <tr><th>Plantão</th><td><?= formatarData($detalhe['data']) ?> <?= formatarHora($detalhe['hora_inicial']) ?>–<?= formatarHora($detalhe['hora_final']) ?> (<?= h($detalhe['turno']) ?>)</td></tr>

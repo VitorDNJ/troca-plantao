@@ -20,13 +20,13 @@
       <p class="mb-3"><?= h($sol['solicitante_nome']) ?> — matrícula <?= h($sol['solicitante_matricula']) ?> — <?= h($sol['solicitante_setor_nome']) ?> — <?= h($sol['solicitante_funcao']) ?></p>
 
       <h6 class="text-muted">MEU PLANTÃO (do solicitante)</h6>
-      <p class="mb-3"><?= formatarData($troca['meu_data']) ?> das <?= formatarHora($troca['meu_hora_inicial']) ?> às <?= formatarHora($troca['meu_hora_final']) ?> — turno <?= h($troca['meu_turno']) ?></p>
+      <p class="mb-3"><?= formatarData($troca['meu_data']) ?> — turno <?= h($troca['meu_turno']) ?></p>
 
       <h6 class="text-muted">OUTRO COLABORADOR</h6>
       <p class="mb-3"><?= h($troca['outro_nome']) ?> — matrícula <?= h($troca['outro_matricula']) ?> — <?= h($troca['outro_setor_nome']) ?></p>
 
       <h6 class="text-muted">PLANTÃO DO OUTRO COLABORADOR</h6>
-      <p class="mb-3"><?= formatarData($troca['outro_data']) ?> das <?= formatarHora($troca['outro_hora_inicial']) ?> às <?= formatarHora($troca['outro_hora_final']) ?> — turno <?= h($troca['outro_turno']) ?></p>
+      <p class="mb-3"><?= formatarData($troca['outro_data']) ?> — turno <?= h($troca['outro_turno']) ?></p>
 
       <?php if ($sol['motivo']): ?><h6 class="text-muted">MOTIVO</h6><p class="mb-3"><?= h($sol['motivo']) ?></p><?php endif; ?>
       <?php if ($sol['observacao']): ?><h6 class="text-muted">OBSERVAÇÃO</h6><p class="mb-0"><?= h($sol['observacao']) ?></p><?php endif; ?>
