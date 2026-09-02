@@ -1,0 +1,17 @@
+# Impede listagem e acesso direto a qualquer arquivo fora de /public
+# Em um servidor com DocumentRoot apontando para a pasta /public (recomendado
+# em produção), este arquivo é redundante, mas protege instalações onde o
+# DocumentRoot aponta para a raiz do projeto (comum no XAMPP).
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteCond %{REQUEST_URI} !^/index\.php$
+    RewriteRule ^(app|config|database|storage|views)(/.*)?$ - [F,L]
+</IfModule>
+
+<FilesMatch "\.(sql|log|md)$">
+    Require all denied
+</FilesMatch>
